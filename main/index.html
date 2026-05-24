@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROSERVICES — 급여 관리</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <a href="#home" class="logo" data-view="home" aria-label="PROSERVICES 홈">
+        <span class="logo-icon" aria-hidden="true">P</span>
+        <span class="logo-name">PROSERVICES</span>
+      </a>
+
+      <button type="button" class="menu-btn" aria-label="메뉴 열기">
+        <span class="menu-icon" aria-hidden="true"></span>
+      </button>
+
+      <nav class="top-nav" aria-label="주요 메뉴">
+        <a href="#calendar" class="top-nav-link" data-view="calendar">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <path d="M16 2v4M8 2v4M3 10h18"/>
+          </svg>
+          달력
+        </a>
+        <a href="#home" class="top-nav-link active" data-view="home" aria-current="page">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M3 10.5 12 4l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5z"/>
+            <path d="M9 21V12h6v9"/>
+          </svg>
+          홈
+        </a>
+        <a href="#mypage" class="top-nav-link" data-view="mypage">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/>
+          </svg>
+          마이페이지
+        </a>
+      </nav>
+    </header>
+
+    <main class="main">
+      <section id="view-home" class="view view-home" data-view="home" aria-label="홈">
+        <div class="view-home-layout">
+          <div class="left-col">
+            <a href="#calendar" class="summary-card card summary-card-link" id="today-pay-card" data-view="calendar">
+              <p class="summary-label">오늘의 급여</p>
+              <p id="today-pay-value" class="summary-value">—</p>
+              <p id="today-pay-desc" class="summary-desc">오늘 알바 일정 없음</p>
+            </a>
+
+            <ul id="home-today-pay-list" class="home-pay-list" hidden aria-label="오늘 알바 급여 내역"></ul>
+
+        <section class="pay-calc card" aria-labelledby="pay-calc-title">
+          <div class="card-top">
+            <div class="card-icon-box" aria-hidden="true">
+              <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="4" y="2" width="16" height="20" rx="2"/>
+                <path d="M8 6h8M8 10h2M12 10h2M16 10h2M8 14h2M12 14h2M16 14h2M8 18h2M12 18h2"/>
+              </svg>
+            </div>
+            <h1 id="pay-calc-title" class="card-title">급여 계산기</h1>
+          </div>
+
+          <form id="pay-calc-form" class="calc-form" novalidate>
+            <div class="calc-field">
+              <label class="calc-label" for="hourly-wage">시급</label>
+              <div class="calc-input-box">
+                <input
+                  type="text"
+                  id="hourly-wage"
+                  name="hourlyWage"
+                  class="calc-input"
+                  value="10,320"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  required
+                >
+                <span class="calc-unit">원</span>
+              </div>
+              <p id="min-wage-notice" class="calc-hint">2026년 최저시급: 10,320원</p>
+              <p id="min-wage-warning" class="calc-warning" hidden>최저시급(10,320원) 미만입니다.</p>
+            </div>
+
+            <div class="calc-row">
+              <div class="calc-field">
+                <label class="calc-label" for="weekly-hours">주당 근무시간</label>
+                <div class="calc-input-box">
+                  <input
+                    type="text"
+                    id="weekly-hours"
+                    name="weeklyHours"
+                    class="calc-input"
+                    value="20"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    required
+                  >
+                  <span class="calc-unit">시간</span>
+                </div>
+              </div>
+              <div class="calc-field">
+                <label class="calc-label" for="weekly-days">주당 근무일수</label>
+                <div class="calc-input-box">
+                  <input
+                    type="text"
+                    id="weekly-days"
+                    name="weeklyDays"
+                    class="calc-input"
+                    value="5"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    required
+                  >
+                  <span class="calc-unit">일</span>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              id="calc-advanced-toggle"
+              class="calc-advanced-toggle"
+              aria-expanded="false"
+              aria-controls="calc-advanced-panel"
+            >
+              <span>상세 옵션</span>
+              <svg class="calc-toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </button>
+
+            <div id="calc-advanced-panel" class="calc-advanced-panel" hidden>
+            <div class="calc-row">
+              <div class="calc-field">
+                <label class="calc-label" for="overtime-hours">연장 근무 (주)</label>
+                <div class="calc-input-box">
+                  <input
+                    type="text"
+                    id="overtime-hours"
+                    name="overtimeHours"
+                    class="calc-input"
+                    value="0"
+                    inputmode="numeric"
+                    autocomplete="off"
+                  >
+                  <span class="calc-unit">시간</span>
+                </div>
+              </div>
+              <div class="calc-field">
+                <label class="calc-label" for="night-hours">야간 근무 (주)</label>
+                <div class="calc-input-box">
+                  <input
+                    type="text"
+                    id="night-hours"
+                    name="nightHours"
+                    class="calc-input"
+                    value="0"
+                    inputmode="numeric"
+                    autocomplete="off"
+                  >
+                  <span class="calc-unit">시간</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="calc-field">
+              <label class="calc-label" for="holiday-hours">휴일 근무 (주)</label>
+              <div class="calc-input-box">
+                <input
+                  type="text"
+                  id="holiday-hours"
+                  name="holidayHours"
+                  class="calc-input"
+                  value="0"
+                  inputmode="numeric"
+                  autocomplete="off"
+                >
+                <span class="calc-unit">시간</span>
+              </div>
+            </div>
+
+            <fieldset class="calc-fieldset">
+              <legend class="calc-label">사업장 규모</legend>
+              <div class="calc-radio-group">
+                <label class="calc-radio">
+                  <input type="radio" name="businessSize" value="under5" checked>
+                  <span>5인 미만</span>
+                </label>
+                <label class="calc-radio">
+                  <input type="radio" name="businessSize" value="over5">
+                  <span>5인 이상</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="calc-fieldset">
+              <legend class="calc-label">공제 방식</legend>
+              <div class="calc-radio-group">
+                <label class="calc-radio">
+                  <input type="radio" name="deductionType" value="withholding" checked>
+                  <span>3.3% 원천징수</span>
+                </label>
+                <label class="calc-radio">
+                  <input type="radio" name="deductionType" value="insurance">
+                  <span>4대보험</span>
+                </label>
+              </div>
+            </fieldset>
+            </div>
+
+            <button type="submit" class="calc-btn">결과 보기 &gt;</button>
+          </form>
+        </section>
+
+        <div class="empty-box empty-extra" aria-label="추가 기능 영역" hidden></div>
+          </div>
+
+          <aside class="home-sidebar">
+            <section class="home-schedule" aria-labelledby="home-schedule-heading">
+              <div class="home-schedule-top">
+                <h2 id="home-schedule-heading" class="home-schedule-h2">오늘의 스케줄</h2>
+                <a href="#calendar" class="home-schedule-all" data-view="calendar">전체보기</a>
+              </div>
+
+              <article class="summary-card card" id="today-schedule-card">
+                <p id="today-schedule-value" class="summary-value">0건</p>
+                <p id="today-schedule-desc" class="summary-desc">등록된 일정이 없습니다</p>
+              </article>
+
+              <ul id="home-today-schedules" class="home-schedule-list" hidden></ul>
+            </section>
+
+      <section class="news" aria-labelledby="news-heading">
+        <div class="news-top">
+          <h2 id="news-heading" class="news-h2">뉴스피드</h2>
+          <a href="#" class="news-all">전체보기</a>
+        </div>
+
+        <ul class="news-list">
+          <li>
+            <article class="news-card card">
+              <div class="news-img news-img-1" role="img" aria-label="뉴스 썸네일"></div>
+              <div class="news-body">
+                <h3 class="news-name">뉴스 제목</h3>
+                <div class="news-info">
+                  <div class="news-from">OO일보</div>
+                  <div class="news-when">O분전</div>
+                </div>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="news-card card">
+              <div class="news-img news-img-2" role="img" aria-label="뉴스 썸네일"></div>
+              <div class="news-body">
+                <h3 class="news-name">뉴스 제목</h3>
+                <div class="news-info">
+                  <div class="news-from">OO일보</div>
+                  <div class="news-when">O분전</div>
+                </div>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="news-card card">
+              <div class="news-img news-img-3" role="img" aria-label="뉴스 썸네일"></div>
+              <div class="news-body">
+                <h3 class="news-name">뉴스 제목</h3>
+                <div class="news-info">
+                  <div class="news-from">OO일보</div>
+                  <div class="news-when">O분전</div>
+                </div>
+              </div>
+            </article>
+          </li>
+        </ul>
+      </section>
+          </aside>
+        </div>
+      </section>
+
+      <section id="view-calendar" class="view view-page" data-view="calendar" hidden aria-label="달력">
+        <header class="page-header">
+          <h1 class="page-title">스케줄 달력</h1>
+          <p class="page-desc">알바·개인 일정·할 일을 한곳에서 관리합니다.</p>
+        </header>
+
+        <div class="calendar-card card">
+          <div class="calendar-toolbar">
+            <button type="button" id="cal-prev" class="cal-nav-btn" aria-label="이전 달">&lsaquo;</button>
+            <h2 id="cal-month-label" class="cal-month-label">2026년 5월</h2>
+            <button type="button" id="cal-next" class="cal-nav-btn" aria-label="다음 달">&rsaquo;</button>
+            <button type="button" id="cal-today" class="cal-today-btn">오늘</button>
+          </div>
+
+          <div class="calendar-weekdays" aria-hidden="true">
+            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+          </div>
+          <div id="calendar-grid" class="calendar-grid" role="grid" aria-label="월별 달력"></div>
+        </div>
+
+        <div class="schedule-panel card">
+          <div class="schedule-panel-top">
+            <h3 id="selected-date-label" class="schedule-panel-title">일정</h3>
+            <button type="button" id="add-schedule-btn" class="schedule-add-btn">+ 일정 추가</button>
+          </div>
+          <ul id="schedule-list" class="schedule-list"></ul>
+        </div>
+      </section>
+
+      <section id="view-mypage" class="view view-page" data-view="mypage" hidden aria-label="마이페이지">
+        <header class="page-header">
+          <h1 class="page-title">마이페이지</h1>
+          <p class="page-desc">내 근무 정보와 설정을 관리합니다.</p>
+        </header>
+
+        <div class="profile-card card">
+          <div class="profile-avatar" aria-hidden="true">U</div>
+          <div class="profile-info">
+            <p class="profile-name">게스트</p>
+            <p class="profile-meta">로그인 기능은 추후 제공 예정</p>
+          </div>
+        </div>
+
+        <ul class="menu-list">
+          <li>
+            <button type="button" class="menu-item card" disabled>
+              <span>내 시급 · 근무 정보</span>
+              <span class="menu-badge">준비 중</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="menu-item card" disabled>
+              <span>알림 설정</span>
+              <span class="menu-badge">준비 중</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="menu-item card" disabled>
+              <span>저장된 계산 기록</span>
+              <span class="menu-badge">준비 중</span>
+            </button>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <nav class="tab-bar" aria-label="하단 메뉴">
+      <a href="#calendar" class="tab-link" data-view="calendar">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <path d="M16 2v4M8 2v4M3 10h18"/>
+        </svg>
+        <span>달력</span>
+      </a>
+      <a href="#home" class="tab-link active" data-view="home" aria-current="page">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M3 10.5 12 4l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5z"/>
+          <path d="M9 21V12h6v9"/>
+        </svg>
+        <span>홈</span>
+      </a>
+      <a href="#mypage" class="tab-link" data-view="mypage">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/>
+        </svg>
+        <span>마이페이지</span>
+      </a>
+    </nav>
+  </div>
+
+  <div id="result-modal" class="modal" hidden aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div
+      class="modal-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div class="modal-header">
+        <h2 id="modal-title" class="modal-title">급여 계산 결과</h2>
+        <button type="button" class="modal-close" data-close-modal aria-label="닫기">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-net-label">예상 실수령액 (세후)</p>
+        <p id="modal-net-pay" class="modal-net-pay">0원</p>
+
+        <p class="modal-gross">
+          세전 <strong id="modal-gross-pay">0원</strong>
+        </p>
+
+        <dl id="modal-breakdown" class="modal-breakdown"></dl>
+
+        <div class="modal-conditions">
+          <h3 class="modal-subtitle">계산 조건</h3>
+          <ul id="modal-conditions" class="modal-condition-list"></ul>
+        </div>
+
+        <p id="modal-notes" class="modal-notes"></p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="modal-btn" data-close-modal>확인</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="schedule-modal" class="modal" hidden aria-hidden="true">
+    <div class="modal-backdrop" data-close-schedule-modal></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="schedule-modal-title">
+      <div class="modal-header">
+        <h2 id="schedule-modal-title" class="modal-title">일정 추가</h2>
+        <button type="button" class="modal-close" data-close-schedule-modal aria-label="닫기">&times;</button>
+      </div>
+
+      <form id="schedule-form" class="schedule-form modal-body">
+        <input type="hidden" id="schedule-id" name="id">
+
+        <div class="calc-field">
+          <label class="calc-label" for="schedule-type">유형</label>
+          <select id="schedule-type" name="type" class="schedule-select">
+            <option value="work">알바</option>
+            <option value="personal">개인 일정</option>
+            <option value="todo">할 일</option>
+          </select>
+        </div>
+
+        <div class="calc-field">
+          <label class="calc-label" for="schedule-title">제목</label>
+          <input type="text" id="schedule-title" name="title" class="calc-input schedule-text-input" placeholder="예: 카페 알바" required maxlength="40">
+        </div>
+
+        <div id="schedule-date-row" class="calc-row">
+          <div class="calc-field">
+            <label class="calc-label" for="schedule-date" id="schedule-date-label">날짜</label>
+            <input type="date" id="schedule-date" name="date" class="calc-input schedule-text-input" required>
+          </div>
+          <div class="calc-field" id="schedule-end-date-field" hidden>
+            <label class="calc-label" for="schedule-end-date">종료일</label>
+            <input type="date" id="schedule-end-date" name="endDate" class="calc-input schedule-text-input">
+          </div>
+        </div>
+
+        <div class="calc-row schedule-time-row">
+          <div class="calc-field">
+            <label class="calc-label" for="schedule-start">시작</label>
+            <input type="time" id="schedule-start" name="startTime" class="calc-input schedule-text-input">
+          </div>
+          <div class="calc-field">
+            <label class="calc-label" for="schedule-end">종료</label>
+            <input type="time" id="schedule-end" name="endTime" class="calc-input schedule-text-input">
+          </div>
+        </div>
+        <p class="calc-hint schedule-time-hint">종료가 시작보다 이르면 <strong>익일 퇴근</strong>으로 계산됩니다 (예: 18:00 → 03:00 = 9시간)</p>
+
+        <div id="schedule-wage-field" class="calc-field">
+          <label class="calc-label" for="schedule-wage">시급 (선택)</label>
+          <div class="calc-input-box">
+            <input type="text" id="schedule-wage" name="hourlyWage" class="calc-input" inputmode="numeric" placeholder="비우면 10,320원">
+            <span class="calc-unit">원</span>
+          </div>
+          <p class="calc-hint">미입력 시 2026년 최저시급(10,320원)으로 자동 계산됩니다</p>
+        </div>
+
+        <div class="calc-field">
+          <label class="calc-label" for="schedule-memo">메모 (선택)</label>
+          <input type="text" id="schedule-memo" name="memo" class="calc-input schedule-text-input" placeholder="메모를 입력하세요" maxlength="80">
+        </div>
+
+        <div class="schedule-form-actions">
+          <button type="button" id="schedule-delete-btn" class="schedule-delete-btn" hidden>삭제</button>
+          <button type="submit" class="modal-btn schedule-save-btn">저장</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script src="calendar.js"></script>
+</body>
+</html>
