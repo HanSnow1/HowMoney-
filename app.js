@@ -3,9 +3,9 @@
 
   var VALID_VIEWS = ["home", "calendar", "mypage"];
   var VIEW_TITLES = {
-    home: "How? Money — 홈",
-    calendar: "How? Money — 달력",
-    mypage: "How? Money — 마이페이지",
+    home: "PROSERVICES — 홈",
+    calendar: "PROSERVICES — 달력",
+    mypage: "PROSERVICES — 마이페이지",
   };
 
   initNavigation();
