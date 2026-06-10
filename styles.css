@@ -79,29 +79,68 @@ input {
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
   flex-shrink: 0;
+  overflow: visible;
 }
 
-.logo-icon {
+.logo-line {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: var(--color-primary);
-  color: var(--color-white);
-  font-size: 16px;
-  font-weight: 700;
+  gap: 2px;
+  text-transform: uppercase;
+  font-family: "Arial Black", Impact, sans-serif;
   line-height: 1;
 }
 
-.logo-name {
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--color-primary);
+.logo-char {
+  font-size: 17px;
+  color: #1e40af;
+  letter-spacing: 0.5px;
+  text-shadow:
+    0 1px 0 #1d4ed8,
+    0 2px 0 #1d4ed8,
+    0 3px 0 #1d4ed8,
+    0 4px 8px rgba(0, 0, 0, 0.18);
+  position: relative;
+  display: inline-block;
+}
+
+.logo-char--q {
+  transform: rotate(8deg);
+  margin-right: 5px;
+}
+
+.logo-char--w {
+  position: relative;
+  display: inline-block;
+}
+
+.logo-char--w::before,
+.logo-char--w::after {
+  content: "";
+  position: absolute;
+  left: -5%;
+  width: 110%;
+  height: 2px;
+  background: #1e40af;
+  border-radius: 2px;
+  z-index: 2;
+  box-shadow:
+    0 1px 0 #1d4ed8,
+    0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.logo-char--w::before {
+  top: 38%;
+}
+
+.logo-char--w::after {
+  top: 54%;
+}
+
+.logo-char--w span {
+  position: relative;
+  z-index: 1;
 }
 
 .menu-btn {
@@ -1648,6 +1687,25 @@ input {
 
   .header {
     padding: 0 40px;
+  }
+
+  .logo-char {
+    font-size: 22px;
+    letter-spacing: 1px;
+  }
+
+  .logo-line {
+    gap: 3px;
+  }
+
+  .logo-char--q {
+    margin-right: 8px;
+  }
+
+  .logo-char--w::before,
+  .logo-char--w::after {
+    height: 3px;
+    border-radius: 3px;
   }
 
   .menu-btn {
